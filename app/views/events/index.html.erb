@@ -1,13 +1,25 @@
 <% if user_signed_in? %> 
  <div> Welcome <%= current_user.email %> </div>
-  <h1>Cool Events!</h1>
-  <ul>
-    <% @events.each do |event| %>
-      <p><%= event.title %></p>
-      <%= link_to "register", register_event_path(event) %>
-    <% end %>
-  </ul>
-  <%= button_to "Sign out", destroy_user_session_path, method: :delete %> 
+  <%= button_to "Sign out", destroy_user_session_path, method: :delete, class: "btn btn-danger" %> 
+  <h1 class="p-5">Cool Events!</h1>
+  <table class="table table-dark table-striped" >
+    <thead>
+      <tr>
+        <th>Event</th>
+        <th>Time Of Event</th>
+        <th>Register</th>
+      </tr>  
+    </thead>
+    <tbody>
+      <% @events.each do |event| %>
+        <tr>
+          <td><%= event.title  %></td>
+          <td><%= event.event_time %></td>
+          <td><button class="btn btn-light"><%= link_to "register", register_event_path(event) %></button></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 <% else %>
   <%= button_to "Sign in", new_user_session_path %> 
 <% end %>
