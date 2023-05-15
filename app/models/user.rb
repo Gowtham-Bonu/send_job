@@ -9,7 +9,9 @@ class User < ApplicationRecord
     CreateEmployeeJob.set(wait: 2.minutes).perform_later user
   end
 
-  has_one :employee, dependent: :destroy
-  has_many :registrations
+  with_option dependent: :destroy do |assoc|
+    assoc.has_one :employee
+    assoc.has_many :registrations
+  end
   has_many :events, through: :registrations
 end
