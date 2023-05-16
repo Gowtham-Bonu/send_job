@@ -15,7 +15,11 @@
         <tr>
           <td><%= event.title  %></td>
           <td><%= event.event_time %></td>
-          <td><button class="btn btn-light"><%= link_to "register", register_event_path(event) %></button></td>
+          <% if @user.events.include?(event) %>
+            <td><%= link_to "registered", "", class: "btn btn-secondary" %></td>
+          <% else %>
+            <td><%= link_to "register", register_event_path(event), class: "btn btn-primary" %></td>
+          <% end %>
         </tr>
       <% end %>
     </tbody>

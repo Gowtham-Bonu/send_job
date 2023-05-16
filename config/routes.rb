@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   root "events#index"
+
   devise_for :users
+  
   resources :events, only: [:index] do
     member do
       get 'register'

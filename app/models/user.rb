@@ -4,14 +4,14 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  after_create do |user|
-    SendWelcomeEmailJob.perform_later user
-    CreateEmployeeJob.set(wait: 2.minutes).perform_later user
-  end
-
-  with_option dependent: :destroy do |assoc|
+  with_options dependent: :destroy do |assoc|
     assoc.has_one :employee
     assoc.has_many :registrations
   end
   has_many :events, through: :registrations
+
+  after_create do |user|
+    SendWelcomeEmailJob.perform_later user
+    CreateEmployeeJob.set(wait: 2.minutes).perform_later user
+  end
 end
